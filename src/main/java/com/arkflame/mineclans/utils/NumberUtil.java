@@ -17,10 +17,6 @@ public class NumberUtil {
         }
     }
 
-    public static String formatPower(double power) {
-        return String.valueOf(Math.round(power * 10) / 10);
-    }
-
     public static String formatScore(double score) {
         return String.valueOf(Math.round(score * 10) / 10);
     }

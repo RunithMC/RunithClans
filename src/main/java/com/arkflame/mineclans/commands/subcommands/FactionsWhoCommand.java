@@ -81,10 +81,7 @@ public class FactionsWhoCommand {
                 .replace("%balance%", formattedBalance)
                 .replace("%kills%", kills)
                 .replace("%score%", score)
-                .replace("%founded_date%", foundedDate)
-                .replace("%power%", NumberUtil.formatPower(faction.getPower()))
-                .replace("%raidable%", faction.canBeRaided() ? messages.getText(BASE_PATH + "raidable") : messages.getText(BASE_PATH + "safe"))
-                .replace("%max_power%", NumberUtil.formatPower(faction.getMaxPower()));
+                .replace("%founded_date%", foundedDate);
     }
     
     private static String buildMemberList(ConfigWrapper messages, Faction faction, MineClansAPI api) {
@@ -101,10 +98,8 @@ public class FactionsWhoCommand {
                 iterator.remove();
                 continue;
             }
-            String power = NumberUtil.formatPower(factionPlayer.getPower());
-            String maxPower = NumberUtil.formatPower(factionPlayer.getMaxPower());
-            String playerInfo = (offlinePlayer.isOnline() ? "&a" : "&7") +
-                    offlinePlayer.getName() + "&7[&f" + power + "/" + maxPower + "&7]";
+
+            String playerInfo = (offlinePlayer.isOnline() ? "&a" : "&7") + offlinePlayer.getName();
             memberLists.computeIfAbsent(rank, k -> new StringBuilder()).append(playerInfo).append(", ");
         }
     

@@ -42,9 +42,6 @@ public class PlayerJoinListener implements Listener {
                     MineClans.getInstance().getProtocolLibHook().showFakeBeacon(player, rallyPoint);
                 }
                 FactionPlayer factionPlayer = factionPlayerManager.getOrLoad(id);
-                if (factionPlayer.updateMaxPower()) {
-                    factionPlayerManager.save(factionPlayer);
-                }
                 MineClans.runSync(() -> {
                     // Update Buffs
                     for (ActiveBuff activeBuff : faction.getBuffs()) {

@@ -47,7 +47,6 @@ import com.arkflame.mineclans.providers.MySQLProvider;
 import com.arkflame.mineclans.providers.redis.RedisProvider;
 import com.arkflame.mineclans.tasks.BuffExpireTask;
 import com.arkflame.mineclans.tasks.FactionBenefitsTask;
-import com.arkflame.mineclans.tasks.PowerTask;
 import com.arkflame.mineclans.tasks.TeleportScheduler;
 import com.arkflame.mineclans.utils.BungeeUtil;
 
@@ -283,7 +282,6 @@ public class MineClans extends JavaPlugin {
             // Register tasks
             BuffExpireTask buffExpireTask = new BuffExpireTask();
             buffExpireTask.register();
-            PowerTask.start();
 
             // Attempt to hook Vault
             if (server.getPluginManager().getPlugin("Vault") != null) {
@@ -343,19 +341,5 @@ public class MineClans extends JavaPlugin {
 
     public FactionBenefitsTask getFactionBenefitsTask() {
         return benefitsTask;
-    }
-
-    public double getPowerMultiplier(Player player) {
-        List<Double> multipliers = config.getDoubleList("power_multipliers");
-        if (multipliers == null || multipliers.isEmpty()) {
-            return 1.0;
-        }
-        Collections.sort(multipliers, Collections.reverseOrder());
-        for (double multiplier : multipliers) {
-            if (player.hasPermission("mineclans.power-multiplier." + multiplier)) {
-                return multiplier;
-            }
-        }
-        return 1.0;
     }
 }

@@ -85,9 +85,6 @@ public class Faction implements InventoryHolder {
     // Score
     private double score = 0;
 
-    // Power
-    private int power = 0;
-
     private boolean receivedSubDuringUpdate = false;
     private boolean editingChest = false;
 
@@ -279,13 +276,11 @@ public class Faction implements InventoryHolder {
             factionPlayer.setFaction(this);
         }
         updateScore();
-        updatePower();
     }
 
     public void removeMember(UUID member) {
         this.members.remove(member);
         updateScore();
-        updatePower();
     }
 
     public void setMembers(Collection<UUID> members) {
@@ -566,35 +561,6 @@ public class Faction implements InventoryHolder {
 
     public void setEditingChest(boolean b) {
         editingChest = b;
-    }
-
-    public int getPower() {
-        return power;
-    }
-
-    public void updatePower() {
-        power = 0;
-        for (UUID uuid : getMembers()) {
-            FactionPlayer player = MineClans.getInstance().getAPI().getFactionPlayer(uuid);
-            if (player != null) {
-                power += player.getPower();
-            }
-        }
-    }
-
-    public int getMaxPower() {
-        int maxPower = 0;
-        for (UUID uuid : getMembers()) {
-            FactionPlayer player = MineClans.getInstance().getAPI().getFactionPlayer(uuid);
-            if (player != null) {
-                maxPower += player.getMaxPower();
-            }
-        }
-        return maxPower;
-    }
-
-    public boolean canBeRaided() {
-        return getPower() < 0;
     }
 
     public boolean isMember(UUID playerId) {

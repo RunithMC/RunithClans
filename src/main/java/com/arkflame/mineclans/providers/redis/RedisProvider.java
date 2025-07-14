@@ -221,8 +221,4 @@ public class RedisProvider {
     public void requestHome(UUID playerId) {
         publishUpdate("player", playerId, "requestHome");
     }
-
-    public void updatePower(UUID uniqueId, double amount) {
-        publishUpdate("player", uniqueId, "updatePower", String.valueOf(amount));
-    }
 }

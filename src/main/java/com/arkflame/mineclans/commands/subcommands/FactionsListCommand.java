@@ -66,16 +66,12 @@ public class FactionsListCommand {
             int onlineCount = factionCountMap.getOrDefault(faction, 0);
             int totalMembers = faction.getMembers().size();
             String score = NumberUtil.formatScore(faction.getScore());
-            int power = faction.getPower();
-            int maxPower = faction.getMaxPower();
 
             player.sendMessage(messages.getText("factions.list.entry")
                     .replace("%faction%", faction.getDisplayName())
                     .replace("%online%", String.valueOf(onlineCount))
                     .replace("%total%", String.valueOf(totalMembers))
-                    .replace("%level%", score)
-                    .replace("%power%", String.valueOf(power))
-                    .replace("%max_power%", String.valueOf(maxPower)));
+                    .replace("%level%", score));
         }
 
         // Display footer

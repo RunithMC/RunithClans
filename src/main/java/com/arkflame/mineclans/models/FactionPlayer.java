@@ -31,8 +31,6 @@ public class FactionPlayer {
     private EnteringType enteringType = EnteringType.DEPOSIT;
     private long enteringTime = 0;
     private long lastHomeRequest = 0;
-    private double power = 1;
-    private int maxPower = 10;
 
     // Rank Benefits
     // Enabled by commands, effectively applied or not if condition is met
@@ -232,56 +230,6 @@ public class FactionPlayer {
 
     public void requestHome() {
         this.lastHomeRequest = System.currentTimeMillis();
-    }
-
-    public double getPower() {
-        return power;
-    }
-
-    public boolean setPower(double power) {
-        double oldPower = this.power;
-        this.power = power;
-        if (this.power > this.maxPower) {
-            this.power = this.maxPower;
-        }
-        if (this.power < -10) {
-            this.power = -10D;
-        }
-        if (oldPower == this.power) {
-            return false;
-        }
-        return true;
-    }
-
-    public double getMaxPower() {
-        return maxPower;
-    }
-
-    public void setMaxPower(int maxPower) {
-        this.maxPower = maxPower;
-    }
-
-    public boolean updateMaxPower() {
-        Player player = getPlayer();
-        if (player == null) {
-            return false;
-        }
-        Configuration config = MineClans.getInstance().getConfig();
-        List<Integer> perms = config.getIntegerList("max_power_permissions");
-        if (perms != null) {
-            Collections.sort(perms, Collections.reverseOrder());
-            for (int value : perms) {
-                String permission = "mineclans.power." + value;
-                if (player.hasPermission(permission)) {
-                    if (this.maxPower != value) {
-                        this.maxPower = value;
-                        return true;
-                    }
-                    break;
-                }
-            }
-        }
-        return false;
     }
 
     public boolean isFlying() {

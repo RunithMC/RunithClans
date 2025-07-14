@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -914,27 +913,6 @@ public class MineClansAPI {
         return new DepositResult(DepositResultType.SUCCESS, amount); // Deposit successful
     }
 
-    public void updatePower(FactionPlayer player, double amount, boolean publishUpdate) {
-        if (player != null) {
-            boolean changed = player.setPower(player.getPower() + amount);
-            if (changed) {
-                if (publishUpdate) {
-                    factionPlayerManager.save(player);
-                    redisProvider.updatePower(player.getPlayerId(), amount);
-                }
-                Faction faction = player.getFaction();
-                if (faction != null) {
-                    faction.updatePower();
-                }
-            }
-        }
-    }
-
-    public void updatePower(Player player, double amount, boolean publishUpdate) {
-        FactionPlayer factionPlayer = getFactionPlayer(player);
-        updatePower(factionPlayer, amount, publishUpdate);
-    }
-
     public AddKillResult addKill(Player player, Player killed) {
         FactionPlayer factionPlayer = getFactionPlayer(player);
         FactionPlayer killedPlayer = getFactionPlayer(killed);
@@ -972,17 +950,7 @@ public class MineClansAPI {
         return new AddKillResult(AddKillResultType.ALREADY_KILLED);
     }
 
-    public int getKills(Player player) {
-        FactionPlayer factionPlayer = getFactionPlayer(player);
-
-        if (factionPlayer == null) {
-            return 0;
-        }
-
-        return factionPlayer.getKills();
-    }
-
-    public AddEventsWonResult addEvenstsWon(Player player) {
+    public AddEventsWonResult addEventsWon(Player player) {
         FactionPlayer factionPlayer = getFactionPlayer(player);
 
         // Ensure player exist in the system

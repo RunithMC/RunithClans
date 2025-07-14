@@ -31,9 +31,6 @@ public class FactionsCommand extends ModernCommand {
             Player player = (Player) sender;
             String subcommand = args.getText(0);
             switch (subcommand.toLowerCase()) {
-                case "power":
-                    FactionsPowerCommand.onCommand(player, args);
-                    break;
                 case "map":
                     FactionsMapCommand.onCommand(player, args);
                     break;

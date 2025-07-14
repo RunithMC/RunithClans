@@ -20,28 +20,21 @@ public class FactionPlayerDAO {
             + "last_active TIMESTAMP,"
             + "kills INT DEFAULT 0,"
             + "deaths INT DEFAULT 0,"
-            + "power INT DEFAULT 1,"
-            + "max_power INT DEFAULT 10,"
             + "name TEXT"
             + ")";
 
     protected String CHECK_COLUMNS_QUERY = "SELECT COUNT(*) AS column_count FROM information_schema.columns "
             + "WHERE table_name = '" + TABLE_NAME + "' AND table_schema = DATABASE()";
 
-    protected String INSERT_PLAYER_QUERY = "INSERT INTO " + TABLE_NAME + " (player_id, faction_id, join_date, last_active, kills, deaths, power, max_power, name) "
+    protected String INSERT_PLAYER_QUERY = "INSERT INTO " + TABLE_NAME + " (player_id, faction_id, join_date, last_active, kills, deaths, name) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) "
             + "ON DUPLICATE KEY UPDATE "
             + "faction_id = VALUES(faction_id), join_date = VALUES(join_date), last_active = VALUES(last_active), "
-            + "kills = VALUES(kills), deaths = VALUES(deaths), name = VALUES(name), "
-            + "power = VALUES(power), max_power = VALUES(max_power)";
+            + "kills = VALUES(kills), deaths = VALUES(deaths), name = VALUES(name)";
 
     protected String SELECT_BY_ID_QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE player_id = ?";
     protected String SELECT_BY_NAME_QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE name = ?";
     protected String DELETE_PLAYER_QUERY = "DELETE FROM " + TABLE_NAME + " WHERE player_id = ?";
-
-    // Queries to add new columns if they don't exist
-    protected String ADD_POWER_COLUMN_QUERY = "ALTER TABLE " + TABLE_NAME + " ADD COLUMN IF NOT EXISTS power INT DEFAULT 1";
-    protected String ADD_MAX_POWER_COLUMN_QUERY = "ALTER TABLE " + TABLE_NAME + " ADD COLUMN IF NOT EXISTS max_power INT DEFAULT 10";
 
     protected String FIND_FK_QUERY = "SELECT CONSTRAINT_NAME FROM information_schema.KEY_COLUMN_USAGE " +
             "WHERE TABLE_NAME = '" + TABLE_NAME + "' AND COLUMN_NAME = 'faction_id' AND REFERENCED_TABLE_NAME IS NOT NULL";
@@ -83,8 +76,6 @@ public class FactionPlayerDAO {
 
         try {
             // Check if the table exists and has all columns
-            mySQLProvider.executeUpdateQuery(ADD_POWER_COLUMN_QUERY);
-            mySQLProvider.executeUpdateQuery(ADD_MAX_POWER_COLUMN_QUERY);
             dropForeignKeyIfExists();
 
             schemaChecked = true;
@@ -106,8 +97,6 @@ public class FactionPlayerDAO {
                 player.getLastActive(),
                 player.getKills(),
                 player.getDeaths(),
-                player.getPower(),
-                player.getMaxPower(),
                 player.getName());
     }
 
@@ -147,17 +136,6 @@ public class FactionPlayerDAO {
         player.setKills(resultSet.getInt("kills"));
         player.setDeaths(resultSet.getInt("deaths"));
         player.setName(resultSet.getString("name"));
-
-        try {
-            // Try to get the new columns, fall back to defaults if they don't exist
-            player.setMaxPower(resultSet.getInt("max_power"));
-            player.setPower(resultSet.getInt("power"));
-        } catch (SQLException e) {
-            // Columns don't exist, use defaults
-            player.setMaxPower(10);
-            player.setPower(1);
-        }
-
         return player;
     }
 

@@ -40,11 +40,6 @@ public class PlayerKillListener implements Listener {
                             10, 20, 10);
                     MelodyUtil.playMelody(MineClans.getInstance(), killer, Melody.ERROR);
                 }
-                if (killed != null) {
-                    if (!"true".equals(killed.getWorld().getGameRuleValue("keepInventory"))) {
-                        MineClans.getInstance().getAPI().updatePower(killed, -4, true);
-                    }
-                }
             });
         }
     }

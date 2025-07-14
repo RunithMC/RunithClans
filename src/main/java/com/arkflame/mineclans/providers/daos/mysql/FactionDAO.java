@@ -146,9 +146,6 @@ public class FactionDAO {
 
             // Load Events Won
             faction.setEventsWon(eventsWon);
-
-            // Load Power
-            faction.updatePower();
             return true;
         }
         return false;
