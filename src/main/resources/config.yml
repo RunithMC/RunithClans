@@ -186,4 +186,5 @@ redis:
   # Redis authentication (optional)
   auth:
     enabled: false  # Set to true if authentication is required
+    user: ""
     password: ""  # Redis password if authentication is enabled

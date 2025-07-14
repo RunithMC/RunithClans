@@ -75,7 +75,7 @@ public class RedisProvider {
     public Jedis getResource() {
         Jedis jedis = jedisPool.getResource();
         if (config.getBoolean("redis.auth.enabled")) {
-            jedis.auth(config.getString("redis.auth.password", ""));
+            jedis.auth(config.getString("redis.auth.user"), config.getString("redis.auth.password"));
         }
         return jedis;
     }
