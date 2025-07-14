@@ -37,19 +37,6 @@ public class FactionsCommand extends ModernCommand {
                 case "map":
                     FactionsMapCommand.onCommand(player, args);
                     break;
-                case "tpclaim":
-                case "claimtp":
-                    FactionsTPClaimCommand.onCommand(player, args);
-                    break;
-                case "claim":
-                    FactionsClaimCommand.onCommand(player, args);
-                    break;
-                case "unclaim":
-                    FactionsUnclaimCommand.onCommand(player, args);
-                    break;
-                case "claims":
-                    FactionsClaimsCommand.onCommand(player, args);
-                    break;
                 case "create":
                     FactionsCreateCommand.onCommand(player, args);
                     break;

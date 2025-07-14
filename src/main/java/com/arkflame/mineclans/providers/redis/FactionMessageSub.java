@@ -72,14 +72,6 @@ public class FactionMessageSub extends JedisPubSub {
             String factionName = parts[3];
             factionManager.createFaction(playerId, factionName, factionId);
             return;
-        } else if (parts[0].equalsIgnoreCase("updateChunk")) {
-            int x = Integer.parseInt(parts[2]);
-            int z = Integer.parseInt(parts[3]);
-            String serverId = parts[4];
-            String worldName = parts[5];
-            boolean remove = Boolean.parseBoolean(parts[6]);
-            factionManager.updateChunk(factionId, x, z, worldName, serverId, remove);
-            return;
         }
         Faction faction = factionManager.getFaction(factionId);
         if (faction == null)

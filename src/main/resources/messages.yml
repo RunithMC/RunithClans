@@ -85,60 +85,7 @@ factions:
     not_in_faction_other: "&c%player% is not in a faction"
     invalid_player: "&cPlayer not found"
     error: "&cAn error occurred while checking your power"
-  claims:
-    menu:
-      title: "&e%faction% Claims &7(Page %page%/%max_page%)"
-      previous_page: "&c← Previous Page"
-      next_page: "&aNext Page →"
-      chunk_material:
-        - GRASS
-        - GRASS_BLOCK
-      current_chunk_material: 
-        - EMERALD_BLOCK
-      claim_item_name: "&aClaim #%index% &7(%x%, %z%)"
-      claim_item_lore:
-        - "&7World: &f%world%"
-        - "&7Server: &f%server%"
-        - "&7Coordinates: &f%x%, %z%"
-      click_to_teleport: "&eClick to teleport to this claim"
-    entered:
-      message-team: "&7Entering claim %x%, %z% owned by &a%owner%."
-      message-enemy: "&7Entering claim %x%, %z% owned by &c%owner%."
-    left:
-      message-team: "&7Leaving claim %x%, %z% owned by &a%owner%."
-      message-enemy: "&7Leaving claim %x%, %z% owned by &c%owner%."
-    not_in_faction: "&cYou must be in a faction to view claims!"
-    no_claims: "&7Your faction hasn't claimed any chunks yet."
-    invalid_page: "&cInvalid page! Please choose between 1 and %max%."
-    header: |
-      &6&lClaims of &e&l%faction% &6&l(Page &e%page%/%max_page%&6) &8- &7Total: &f%total%
-      &7&m--------------------------------
-    chunk_format: "&8%index%. &7X: &f%x% &7Z: &f%z% &7World: &f%world% &7Server: &f%server%"
-    current_chunk_format: "&8%index%. &aX: &f%x% &aZ: &f%z% &aWorld: &f%world% &aServer: &f%server%"
-    footer: "&7Use &f%command% <page> &7to view other pages. &8(Page %page%/%max_page%)"
-    disabled: "&cViewing claims is disabled in your faction"
 
-  claim:
-    success: "&aSuccessfully claimed territory at X:%x% Z:%z%"
-    already_claimed: "&cThis chunk at X:%x% Z:%z% is already claimed by %faction%"
-    limit_reached: "&cYou need more power to claim. You need %needed% but have %faction_power%. Hard limit: %hard_limit%"
-    no_adjacent: "&cYou need claims nearby to claim territory claimed by %faction%"
-    not_raidable: "&cThe faction %faction% has enough power to keep this territory"
-    not_in_faction: "&cYou must be in a faction to claim land!"
-    no_permission: "&cYou must be at least a Co-Leader to claim land!"
-    overlaps_region: "&cThis claim overlaps a WorldGuard region!"
-    disabled: "&cClaiming is disabled in your faction"
-  
-  unclaim:
-    not_in_faction: "&cYou must be in a faction to unclaim land!"
-    no_permission: "&cYou must be at least a Co-Leader to unclaim land!"
-    not_claimed: "&cThis chunk is not claimed by anyone"
-    claimed_by_other: "&cThis chunk is claimed by %faction% and cannot be unclaimed"
-    success: "&aSuccessfully unclaimed chunk at X:%x% Z:%z%"
-    error: "&cAn error occurred while unclaiming this chunk"
-    unclaimed_all: "&aSuccessfully unclaimed all claims in your faction"
-    disabled: "&cUnclaiming is disabled in your faction"
-  
   open:
     no_faction: "&cYou are not in a faction"
     o_permission: "&cYou have no permission to open/close your faction"
@@ -182,9 +129,6 @@ factions:
       leave: "Leave your current faction"
       home: "Teleport to your faction home"
       sethome: "Set your faction’s home at your location"
-      claim: "Claim a chunk"
-      unclaim: "Unclaim a chunk"
-      claims: "List all your claimed chunks"
       focus: "Focus a faction and get all their details"
       unfocus: "Cancel the faction focus"
       deposit: "Deposit money into faction balance"
@@ -258,7 +202,7 @@ factions:
       %announcement%
       %discord%
       &e  Balance:&a $%balance%&e Kills:&c %kills%&e Score:&b %score%
-      &e  Power:&b %power% / %max_power%&e Claims:&b %claims% %raidable%
+      &e  Power:&b %power% / %max_power%&e %raidable%
       &e  Founded At:&f %founded_date%
       &7&m-------------------------
     leader: "&e  Leaders:&7 %members%"
@@ -296,7 +240,6 @@ factions:
     unknown_error: "&cAn unknown error occurred."
   sethome:
     no_permission: "&cYou do not have permission to set home."
-    at_enemy_claim: "&cYou cannot set home in an enemy claim."
     success: "&aHome set successfully."
     error: "&cAn error occurred while setting home."
     not_in_faction: "&cYou are not in any faction."
@@ -395,20 +338,8 @@ factions:
     cannot_attack: "&cDisable friendly fire with '/f ff'."
   teleport:
     success: "&aTeleporting..."
-  tpclaim:
-    not_in_faction: "&cYou are not in a faction."
-    no_claims: "&cYour faction has no claimed chunks."
-    invalid_claim_number: "&cInvalid claim number. You have {max} claim(s)."
-    invalid_number: "&cPlease enter a valid number."
-    invalid_world: "&cThe world for this claim does not exist."
-    teleporting: "&aTeleporting to claim #{claim} at &e({x}, {z})&a in {time} seconds..."
-    help:
-      title: "&6Teleport to Claim"
-      usage: "&eUsage: /f tpclaim [number]"
-      description: "&7Teleport to one of your faction's claimed chunks."
   home:
     no_home_set: "&cYou haven't set a home yet."
-    home_in_enemy_claim: "&cYour home is at an enemy claim. Can't teleport."
     teleporting: "&aTeleporting. &7Please don't move for {time} seconds!"
     error: "&cAn error occurred while teleporting home."
     not_in_faction: "&cYou are not in a faction."

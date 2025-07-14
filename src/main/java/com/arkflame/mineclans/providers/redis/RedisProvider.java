@@ -222,10 +222,6 @@ public class RedisProvider {
         publishUpdate("player", playerId, "requestHome");
     }
 
-    public void updateChunk(UUID factionId, int x, int z, String worldName, String serverName, boolean remove) {
-        publishUpdate("faction", factionId, "updateChunk", String.valueOf(x), String.valueOf(z), worldName, serverName, String.valueOf(remove));
-    }
-
     public void updatePower(UUID uniqueId, double amount) {
         publishUpdate("player", uniqueId, "updatePower", String.valueOf(amount));
     }

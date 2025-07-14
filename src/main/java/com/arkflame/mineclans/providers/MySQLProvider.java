@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 
 import com.arkflame.mineclans.MineClans;
 import com.arkflame.mineclans.providers.daos.mysql.ChestDAO;
-import com.arkflame.mineclans.providers.daos.mysql.ClaimedChunksDAO;
 import com.arkflame.mineclans.providers.daos.mysql.FactionDAO;
 import com.arkflame.mineclans.providers.daos.mysql.FactionPlayerDAO;
 import com.arkflame.mineclans.providers.daos.mysql.InvitedDAO;
@@ -36,7 +35,6 @@ public class MySQLProvider {
     private RanksDAO ranksDAO;
     private RelationsDAO relationsDAO;
     private ScoreDAO scoreDAO;
-    private ClaimedChunksDAO claimedChunksDAO;
 
     private boolean connected = false;
 
@@ -53,7 +51,6 @@ public class MySQLProvider {
             ranksDAO = new RanksDAO(this);
             relationsDAO = new RelationsDAO(this);
             scoreDAO = new ScoreDAO(this);
-            claimedChunksDAO = new ClaimedChunksDAO(this);
 
             // Generate hikari config
             generateHikariConfig(url, username, password);
@@ -141,7 +138,6 @@ public class MySQLProvider {
         ranksDAO.createTable();
         factionPlayerDAO.createTable();
         scoreDAO.createTable();
-        claimedChunksDAO.createTable();
     }
 
     public void initialize() {
@@ -201,9 +197,5 @@ public class MySQLProvider {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public ClaimedChunksDAO getClaimedChunksDAO() {
-        return claimedChunksDAO;
     }
 }

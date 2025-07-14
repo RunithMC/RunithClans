@@ -572,10 +572,6 @@ public class Faction implements InventoryHolder {
         return power;
     }
 
-    public int getClaimLimit() {
-        return Math.min(40, power);
-    }
-
     public void updatePower() {
         power = 0;
         for (UUID uuid : getMembers()) {
@@ -599,10 +595,6 @@ public class Faction implements InventoryHolder {
 
     public boolean canBeRaided() {
         return getPower() < 0;
-    }
-
-    public int getClaimedLandCount() {
-        return MineClans.getInstance().getClaimedChunks().getClaimedChunkCount(id);
     }
 
     public boolean isMember(UUID playerId) {

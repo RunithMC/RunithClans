@@ -14,7 +14,6 @@ import com.arkflame.mineclans.MineClans;
 import com.arkflame.mineclans.api.MineClansAPI;
 import com.arkflame.mineclans.commands.subcommands.FactionsFlyCommand;
 import com.arkflame.mineclans.commands.subcommands.FactionsGodCommand;
-import com.arkflame.mineclans.models.ChunkCoordinate;
 import com.arkflame.mineclans.models.Faction;
 import com.arkflame.mineclans.models.FactionPlayer;
 import com.arkflame.mineclans.modernlib.config.ConfigWrapper;
@@ -88,15 +87,6 @@ public class FactionBenefitsManager {
         setChunk(worldName, chunkX, chunkZ, player.getUniqueId());
     }
 
-    private boolean isChunkClaimedBySameFaction(int chunkX, int chunkZ, String worldName, UUID factionId) {
-        if (!api.getClaimedChunks().isChunkClaimed(chunkX, chunkZ, worldName)) {
-            return false;
-        }
-
-        ChunkCoordinate claim = api.getClaimedChunks().getChunkAt(chunkX, chunkZ, worldName);
-        return claim != null && factionId.equals(claim.getFactionId());
-    }
-
     public boolean canUseRankBenefits(FactionPlayer factionPlayer, Player player) {
         // Check if player is in a faction
         Faction faction = factionPlayer.getFaction();
@@ -108,11 +98,6 @@ public class FactionBenefitsManager {
         int chunkX = location.getBlockX() >> 4;
         int chunkZ = location.getBlockZ() >> 4;
         String worldName = location.getWorld().getName();
-
-        // Check if current chunk is claimed by same faction
-        if (!isChunkClaimedBySameFaction(chunkX, chunkZ, worldName, faction.getId())) {
-            return false;
-        }
 
         Collection<UUID> playersInChunk = getNearbyPlayers(player, 1);
         if (playersInChunk.isEmpty()) {

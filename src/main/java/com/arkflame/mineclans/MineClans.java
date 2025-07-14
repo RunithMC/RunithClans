@@ -18,21 +18,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.arkflame.mineclans.api.MineClansAPI;
 import com.arkflame.mineclans.buff.BuffManager;
-import com.arkflame.mineclans.claims.ClaimedChunks;
 import com.arkflame.mineclans.commands.FactionsCommand;
 import com.arkflame.mineclans.events.ClanEventManager;
 import com.arkflame.mineclans.events.ClanEventScheduler;
-import com.arkflame.mineclans.hooks.DynmapIntegration;
 import com.arkflame.mineclans.hooks.FactionsPlaceholder;
 import com.arkflame.mineclans.hooks.MineClansPlaceholder;
 import com.arkflame.mineclans.hooks.ProtocolLibHook;
 import com.arkflame.mineclans.hooks.WorldGuardReflectionUtil;
 import com.arkflame.mineclans.listeners.ChatListener;
-import com.arkflame.mineclans.listeners.ChunkProtectionListener;
 import com.arkflame.mineclans.listeners.ClanEventListener;
 import com.arkflame.mineclans.listeners.FactionBenefitsListener;
 import com.arkflame.mineclans.listeners.FactionFriendlyFireListener;
-import com.arkflame.mineclans.listeners.FactionsClaimsMenuListener;
 import com.arkflame.mineclans.listeners.InventoryClickListener;
 import com.arkflame.mineclans.listeners.PlayerJoinListener;
 import com.arkflame.mineclans.listeners.PlayerKillListener;
@@ -50,7 +46,6 @@ import com.arkflame.mineclans.modernlib.menus.listeners.MenuListener;
 import com.arkflame.mineclans.providers.MySQLProvider;
 import com.arkflame.mineclans.providers.redis.RedisProvider;
 import com.arkflame.mineclans.tasks.BuffExpireTask;
-import com.arkflame.mineclans.tasks.ClaimedChunksParticleTask;
 import com.arkflame.mineclans.tasks.FactionBenefitsTask;
 import com.arkflame.mineclans.tasks.PowerTask;
 import com.arkflame.mineclans.tasks.TeleportScheduler;
@@ -126,11 +121,6 @@ public class MineClans extends JavaPlugin {
     // Teleport Scheduler
     private TeleportScheduler teleportScheduler;
 
-    // Claimed Chunks
-    private ClaimedChunks claimedChunks;
-    private FactionsClaimsMenuListener claimsMenuListener;
-
-    private DynmapIntegration dynmapIntegration;
     private WorldGuardReflectionUtil worldGuardReflectionUil;
 
     private FactionBenefitsManager benefitsManager;
@@ -212,19 +202,8 @@ public class MineClans extends JavaPlugin {
         return teleportScheduler;
     }
 
-    public ClaimedChunks getClaimedChunks() {
-        return claimedChunks;
-    }
-
-    public DynmapIntegration getDynmapIntegration() {
-        return dynmapIntegration;
-    }
-
     public WorldGuardReflectionUtil getWorldGuardIntegration() {
         return worldGuardReflectionUil;
-    }
-    public FactionsClaimsMenuListener getClaimsMenuListener() {
-        return claimsMenuListener;
     }
 
     public ProtocolLibHook getProtocolLibHook() {
@@ -247,7 +226,6 @@ public class MineClans extends JavaPlugin {
             config.save();
 
             // Hooks
-            dynmapIntegration = new DynmapIntegration(this);
             worldGuardReflectionUil = new WorldGuardReflectionUtil();
 
             // Basic
@@ -272,7 +250,6 @@ public class MineClans extends JavaPlugin {
             buffManager = new BuffManager(config);
             bungeeUtil = new BungeeUtil(this);
             teleportScheduler = new TeleportScheduler(this);
-            claimedChunks = new ClaimedChunks(mySQLProvider.getClaimedChunksDAO());
             benefitsManager = new FactionBenefitsManager();
             benefitsTask = new FactionBenefitsTask();
             benefitsTask.register();
@@ -280,7 +257,6 @@ public class MineClans extends JavaPlugin {
             // Register Listeners
             PluginManager pluginManager = server.getPluginManager();
             pluginManager.registerEvents(new ChatListener(), this);
-            pluginManager.registerEvents(new ChunkProtectionListener(this), this);
             pluginManager.registerEvents(new ClanEventListener(), this);
             pluginManager.registerEvents(new FactionFriendlyFireListener(), this);
             pluginManager.registerEvents(new InventoryClickListener(), this);
@@ -290,11 +266,7 @@ public class MineClans extends JavaPlugin {
             pluginManager.registerEvents(new PlayerQuitListener(factionPlayerManager), this);
             pluginManager.registerEvents(new PlayerTeleportListener(), this);
             pluginManager.registerEvents(new MenuListener(), this);
-            pluginManager.registerEvents(dynmapIntegration, this);
             pluginManager.registerEvents(new FactionBenefitsListener(), this);
-        
-            // Initialize the claims menu listener
-            claimsMenuListener = new FactionsClaimsMenuListener(this);
 
             // Register Commands
             factionsCommand = new FactionsCommand();
@@ -311,7 +283,6 @@ public class MineClans extends JavaPlugin {
             // Register tasks
             BuffExpireTask buffExpireTask = new BuffExpireTask();
             buffExpireTask.register();
-            ClaimedChunksParticleTask.start(20L);
             PowerTask.start();
 
             // Attempt to hook Vault
@@ -328,10 +299,6 @@ public class MineClans extends JavaPlugin {
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
-
-        if (dynmapIntegration != null) {
-            dynmapIntegration.cleanup();
-        }
 
         if (factionsCommand != null) {
             factionsCommand.unregisterBukkitCommand();
